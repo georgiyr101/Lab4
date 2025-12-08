@@ -8,22 +8,22 @@
 class CommissionMember : virtual public Human
 {
 protected:
-	String commissionName = "";
-	String biography[MAX_BIOGRAPHY];
+	string commissionName = "";
+	string biography[MAX_BIOGRAPHY];
 	int biographyCount = 0;
 public:
 	CommissionMember(){}
-	CommissionMember(String firstName, String lastName, int birthYear, String commissionName): Human(firstName, lastName, birthYear), commissionName(commissionName), biographyCount(0) {}
+	CommissionMember(string firstName, string lastName, int birthYear, string commissionName): Human(firstName, lastName, birthYear), commissionName(commissionName), biographyCount(0) {}
 	virtual ~CommissionMember() {}
 	CommissionMember& operator=(const CommissionMember& other);
 
-	String getCommissionName() const;
+	string getCommissionName() const;
 	int getBiographyCount() const;
-	String getBiography(int index) const;
+	string getBiography(int index) const;
 
-	void setCommissionName(const String& commissionName);
-	bool addBiography(const String& biographyLine);
-	bool setBiography(int index, const String& biographyLine);
+	void setCommissionName(const string& commissionName);
+	bool addBiography(const string& biographyLine);
+	bool setBiography(int index, const string& biographyLine);
 
 	virtual char editMenu() const override;
 	virtual void editFields() override;
