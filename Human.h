@@ -2,17 +2,18 @@
 #define HUMAN_H
 
 #include <iostream>
-#include "String.h"
+#include <string>
+using namespace std;
 
 class Human
 {
 protected:
-	String firstName = "";
-	String lastName = "";
+	string firstName = "";
+	string lastName = "";
 	int birthYear = 0;
 public:
 	Human() {}		
-	Human(const String& firstName, const String& lastName, int birthYear)
+	Human(const string& firstName, const string& lastName, int birthYear)
 	{
 		this->firstName = firstName;
 		this->lastName = lastName;
@@ -23,12 +24,12 @@ public:
 	bool operator==(const Human& other) const;
 	bool operator<(const Human& other) const;
 
-	String getFirstName() const;
-	String getLastName() const;
+	string getFirstName() const;
+	string getLastName() const;
 	int getBirthYear() const;
 
-	void setFirstName(const String& first);
-	void setLastName(const String& last);
+	void setFirstName(const string& first);
+	void setLastName(const string& last);
 	void setBirthYear(int year);
 
 	virtual void printHeader() const = 0;
