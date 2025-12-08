@@ -1,5 +1,6 @@
 #include "Human.h"
 #include <iomanip>
+#include "../Lab4/Input.h"
 
 Human& Human::operator=(const Human& other) {
     if (this != &other) {
@@ -11,12 +12,12 @@ Human& Human::operator=(const Human& other) {
 }
 
 
-String Human::getFirstName() const { return this->firstName; }
-String Human::getLastName() const { return this->lastName; }
+string Human::getFirstName() const { return this->firstName; }
+string Human::getLastName() const { return this->lastName; }
 int Human::getBirthYear() const { return this->birthYear; }
 
-void Human::setFirstName(const String& first) { this->firstName = first; }
-void Human::setLastName(const String& last) { this->lastName = last; }
+void Human::setFirstName(const string& first) { this->firstName = first; }
+void Human::setLastName(const string& last) { this->lastName = last; }
 void Human::setBirthYear(int year) { this->birthYear = year; }
 
 ostream& operator<<(ostream& os, const Human& h) {
@@ -25,13 +26,12 @@ ostream& operator<<(ostream& os, const Human& h) {
 }
 
 istream& operator>>(istream& is, Human& h) {
-    std::cout << "������� �������: ";
-    is.ignore(1000, '\n');
-    is >> h.lastName;
-    std::cout << "������� ���: ";
-    is >> h.firstName;
-    std::cout << "������� ��� ��������: ";
-    is >> h.birthYear;
+    std::cout << "Введите фамилию (только латиница, пробел или дефис): ";
+    h.setLastName(inputString());
+    std::cout << "Введите имя (только латиница, пробел или дефис): ";
+    h.setFirstName(inputString());
+    std::cout << "Введите год рождения: ";
+    h.setBirthYear(inputNumber<int>(is, 1900, 2025));
     return is;
 }
 
