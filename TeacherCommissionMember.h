@@ -9,19 +9,19 @@
 class TeacherCommissionMember : public Teacher, public CommissionMember
 {
 private:
-    String commissionWorks[MAX_COMMISSION_WORKS];
+    string commissionWorks[MAX_COMMISSION_WORKS];
     int worksCount = 0;
 public:
     TeacherCommissionMember() {}
-    TeacherCommissionMember(String firstName, String lastName, int birthYear, String position, String specialty, String commissionName) : Human(firstName, lastName, birthYear), Teacher(firstName, lastName, birthYear, position, specialty), CommissionMember(firstName, lastName, birthYear, commissionName), worksCount(0) {}
+    TeacherCommissionMember(string firstName, string lastName, int birthYear, string position, string specialty, string commissionName) : Human(firstName, lastName, birthYear), Teacher(firstName, lastName, birthYear, position, specialty), CommissionMember(firstName, lastName, birthYear, commissionName), worksCount(0) {}
     virtual ~TeacherCommissionMember() {}
     TeacherCommissionMember& operator=(const TeacherCommissionMember& other);
 
     int getWorksCount() const;
-    String getCommissionWork(int index) const;
+    string getCommissionWork(int index) const;
 
-    bool addCommissionWork(const String work);
-    bool setCommissionWork(int index, const String work);
+    bool addCommissionWork(const string work);
+    bool setCommissionWork(int index, const string work);
 
     virtual char editMenu() const override;
     virtual void editFields() override;
