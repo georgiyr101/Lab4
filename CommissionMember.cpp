@@ -1,4 +1,5 @@
 #include "CommissionMember.h"
+#include "../Lab4/Input.h"
 #include <iomanip>
 
 CommissionMember& CommissionMember::operator=(const CommissionMember& other) {
@@ -13,19 +14,19 @@ CommissionMember& CommissionMember::operator=(const CommissionMember& other) {
     return *this;
 }
 
-String CommissionMember::getCommissionName() const {return commissionName;}
+string CommissionMember::getCommissionName() const {return commissionName;}
 
 int CommissionMember::getBiographyCount() const {return biographyCount;}
 
-String CommissionMember::getBiography(int index) const 
+string CommissionMember::getBiography(int index) const 
 {
     if (index >= 0 && index < biographyCount) return biography[index];
-    return String("");
+    return string("");
 }
 
-void CommissionMember::setCommissionName(const String& commissionName) {this->commissionName = commissionName;}
+void CommissionMember::setCommissionName(const string& commissionName) {this->commissionName = commissionName;}
 
-bool CommissionMember::addBiography(const String& biographyLine) 
+bool CommissionMember::addBiography(const string& biographyLine) 
 {
     if (biographyCount < MAX_BIOGRAPHY) 
     {
@@ -36,7 +37,7 @@ bool CommissionMember::addBiography(const String& biographyLine)
     return false;
 }
 
-bool CommissionMember::setBiography(int index, const String& biographyLine) 
+bool CommissionMember::setBiography(int index, const string& biographyLine) 
 {
     if (index >= 0 && index < biographyCount) 
     {
@@ -47,11 +48,11 @@ bool CommissionMember::setBiography(int index, const String& biographyLine)
 }
 
 void CommissionMember::printHeader() const {
-    cout << left << setw(15) << "Ôàìèëèÿ";
-    cout << left << setw(15) << "Èìÿ";
-    cout << left << setw(12) << "Ãîä ðîæä.";
-    cout << left << setw(20) << "Íàçâàíèå êîìèññèè";
-    cout << left << setw(30) << "Áèîãðàôèÿ";
+    cout << left << setw(15) << "Ð¤Ð°Ð¼Ð¸Ð»Ð¸Ñ";
+    cout << left << setw(15) << "Ð˜Ð¼Ñ";
+    cout << left << setw(12) << "Ð“Ð¾Ð´ Ñ€Ð¾Ð¶Ð´.";
+    cout << left << setw(20) << "ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ ÐºÐ¾Ð¼Ð¸ÑÑÐ¸Ð¸";
+    cout << left << setw(30) << "Ð‘Ð¸Ð¾Ð³Ñ€Ð°Ñ„Ð¸Ñ";
     cout << endl;
 }
 
@@ -61,7 +62,7 @@ void CommissionMember::printInfo() const {
     cout << left << setw(12) << this->birthYear;
     cout << left << setw(20) << this->commissionName;
 
-    String bioList = "";
+    string bioList = "";
     for (int i = 0; i < biographyCount; i++)
     {
         if (i > 0) bioList += ", ";
@@ -72,17 +73,17 @@ void CommissionMember::printInfo() const {
 }
 
 char CommissionMember::editMenu() const {
-    cout << " 1. Èçìåíèòü ôàìèëèþ   " << endl;
-    cout << " 2. Èçìåíèòü èìÿ       " << endl;
-    cout << " 3. Èçìåíèòü ãîä ðîæä. " << endl;
-    cout << " 4. Èçìåíèòü êîìèññèþ  " << endl;
-    cout << " 5. Äîáàâèòü áèîãðàôèþ " << endl;
-    cout << " 6. Ïîêàçàòü áèîãðàôèþ " << endl;
-    cout << " 7. Èçìåíèòü âñå       " << endl;
-    cout << " 0. Íàçàä              " << endl;
+    cout << " 1. Ð˜Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ñ„Ð°Ð¼Ð¸Ð»Ð¸ÑŽ   " << endl;
+    cout << " 2. Ð˜Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð¸Ð¼Ñ       " << endl;
+    cout << " 3. Ð˜Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð³Ð¾Ð´ Ñ€Ð¾Ð¶Ð´. " << endl;
+    cout << " 4. Ð˜Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ ÐºÐ¾Ð¼Ð¸ÑÑÐ¸ÑŽ  " << endl;
+    cout << " 5. Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð±Ð¸Ð¾Ð³Ñ€Ð°Ñ„Ð¸ÑŽ " << endl;
+    cout << " 6. ÐŸÐ¾ÐºÐ°Ð·Ð°Ñ‚ÑŒ Ð±Ð¸Ð¾Ð³Ñ€Ð°Ñ„Ð¸ÑŽ " << endl;
+    cout << " 7. Ð˜Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð²ÑÐµ       " << endl;
+    cout << " 0. ÐÐ°Ð·Ð°Ð´              " << endl;
 
     char option;
-    cout << "Âûáîð: ";
+    cout << "Ð’Ñ‹Ð±Ð¾Ñ€: ";
     cin >> option;
     return option;
 }
@@ -90,8 +91,8 @@ char CommissionMember::editMenu() const {
 void CommissionMember::editFields() {
     char choice;
     do {
-        cout << "\nÐÅÄÀÊÒÈÐÎÂÀÍÈÅ COMMISSION MEMBER" << endl;
-        cout << "Òåêóùèå äàííûå:" << endl;
+        cout << "\nÐ Ð•Ð”ÐÐšÐ¢Ð˜Ð ÐžÐ’ÐÐÐ˜Ð• COMMISSION MEMBER" << endl;
+        cout << "Ð¢ÐµÐºÑƒÑ‰Ð¸Ðµ Ð´Ð°Ð½Ð½Ñ‹Ðµ:" << endl;
         this->printHeader();
         this->printInfo();
         cout << endl;
@@ -100,55 +101,55 @@ void CommissionMember::editFields() {
 
         switch (choice) {
         case '1': {
-            String newLastName;
-            cout << "Ââåäèòå íîâóþ ôàìèëèþ: ";
+            string newLastName;
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð²ÑƒÑŽ Ñ„Ð°Ð¼Ð¸Ð»Ð¸ÑŽ: ";
             cin.ignore(1000, '\n');
             cin >> newLastName;
             this->setLastName(newLastName);
-            cout << "Ôàìèëèÿ îáíîâëåíà!" << endl;
+            cout << "Ð¤Ð°Ð¼Ð¸Ð»Ð¸Ñ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð°!" << endl;
             break;
         }
         case '2': {
-            String newFirstName;
-            cout << "Ââåäèòå íîâîå èìÿ: ";
+            string newFirstName;
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð²Ð¾Ðµ Ð¸Ð¼Ñ: ";
             cin.ignore(1000, '\n');
             cin >> newFirstName;
             this->setFirstName(newFirstName);
-            cout << "Èìÿ îáíîâëåíî!" << endl;
+            cout << "Ð˜Ð¼Ñ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾!" << endl;
             break;
         }
         case '3': {
             int newBirthYear;
-            cout << "Ââåäèòå íîâûé ãîä ðîæäåíèÿ: ";
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð²Ñ‹Ð¹ Ð³Ð¾Ð´ Ñ€Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ: ";
             cin >> newBirthYear;
             this->setBirthYear(newBirthYear);
-            cout << "Ãîä ðîæäåíèÿ îáíîâëåí!" << endl;
+            cout << "Ð“Ð¾Ð´ Ñ€Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½!" << endl;
             break;
         }
         case '4': {
-            String newCommission;
-            cout << "Ââåäèòå íîâîå íàçâàíèå êîìèññèè: ";
+            string newCommission;
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð²Ð¾Ðµ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ ÐºÐ¾Ð¼Ð¸ÑÑÐ¸Ð¸: ";
             cin.ignore(1000, '\n');
             cin >> newCommission;
             this->setCommissionName(newCommission);
-            cout << "Íàçâàíèå êîìèññèè îáíîâëåíî!" << endl;
+            cout << "ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ ÐºÐ¾Ð¼Ð¸ÑÑÐ¸Ð¸ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾!" << endl;
             break;
         }
         case '5': {
-            String bio;
-            cout << "Ââåäèòå ïóíêò áèîãðàôèè: ";
+            string bio;
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¿ÑƒÐ½ÐºÑ‚ Ð±Ð¸Ð¾Ð³Ñ€Ð°Ñ„Ð¸Ð¸: ";
             cin.ignore(1000, '\n');
             cin >> bio;
             if (this->addBiography(bio)) {
-                cout << "Áèîãðàôèÿ äîáàâëåíà!" << endl;
+                cout << "Ð‘Ð¸Ð¾Ð³Ñ€Ð°Ñ„Ð¸Ñ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð°!" << endl;
             }
             else {
-                cout << "Íå óäàëîñü äîáàâèòü áèîãðàôèþ!" << endl;
+                cout << "ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð´Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð±Ð¸Ð¾Ð³Ñ€Ð°Ñ„Ð¸ÑŽ!" << endl;
             }
             break;
         }
         case '6': {
-            cout << "Áèîãðàôèÿ (" << biographyCount << " ïóíêòîâ):" << endl;
+            cout << "Ð‘Ð¸Ð¾Ð³Ñ€Ð°Ñ„Ð¸Ñ (" << biographyCount << " Ð¿ÑƒÐ½ÐºÑ‚Ð¾Ð²):" << endl;
             for (int i = 0; i < biographyCount; i++) {
                 cout << i + 1 << ". " << biography[i] << endl;
             }
@@ -158,14 +159,14 @@ void CommissionMember::editFields() {
             CommissionMember newMember;
             cin >> newMember;
             *this = newMember;
-            cout << "Âñå äàííûå îáíîâëåíû!" << endl;
+            cout << "Ð’ÑÐµ Ð´Ð°Ð½Ð½Ñ‹Ðµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ñ‹!" << endl;
             break;
         }
         case '0':
-            cout << "Âûõîä èç ðåäàêòèðîâàíèÿ..." << endl;
+            cout << "Ð’Ñ‹Ñ…Ð¾Ð´ Ð¸Ð· Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ..." << endl;
             break;
         default:
-            cout << "Íåâåðíûé âûáîð!" << endl;
+            cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð²Ñ‹Ð±Ð¾Ñ€!" << endl;
         }
     } while (choice != '0');
 }
@@ -180,20 +181,18 @@ ostream& operator<<(ostream& os, const CommissionMember& member) {
 
 istream& operator>>(istream& is, CommissionMember& member) {
     is >> static_cast<Human&>(member);
-    cout << "Ââåäèòå íàçâàíèå êîìèññèè: ";
-    cin.ignore(1000, '\n');
-    is >> member.commissionName;
+    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ ÐºÐ¾Ð¼Ð¸ÑÑÐ¸Ð¸ (Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð»Ð°Ñ‚Ð¸Ð½Ð¸Ñ†Ð°, Ð¿Ñ€Ð¾Ð±ÐµÐ» Ð¸Ð»Ð¸ Ð´ÐµÑ„Ð¸Ñ): ";
+    member.setCommissionName(inputString());
 
-    cout << "Ââåäèòå êîë-âî ïóíêòîâ áèîãðàôèè (íå áîëüøå " << MAX_BIOGRAPHY << "): ";
-    is >> member.biographyCount;
+    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð»-Ð²Ð¾ Ð¿ÑƒÐ½ÐºÑ‚Ð¾Ð² Ð±Ð¸Ð¾Ð³Ñ€Ð°Ñ„Ð¸Ð¸ (Ð½Ðµ Ð±Ð¾Ð»ÑŒÑˆÐµ " << MAX_BIOGRAPHY << "): ";
+    member.biographyCount = inputNumber(is, 1, MAX_BIOGRAPHY);
     if (member.biographyCount > MAX_BIOGRAPHY) {
         member.biographyCount = MAX_BIOGRAPHY;
     }
 
     for (int i = 0; i < member.biographyCount; i++) {
-        cout << "Ââåäèòå ïóíêò áèîãðàôèè " << i + 1 << ": ";
-        cin.ignore(1000, '\n');
-        is >> member.biography[i];
+        cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¿ÑƒÐ½ÐºÑ‚ Ð±Ð¸Ð¾Ð³Ñ€Ð°Ñ„Ð¸Ð¸ " << i + 1 << "(Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð»Ð°Ñ‚Ð¸Ð½Ð¸Ñ†Ð°, Ð¿Ñ€Ð¾Ð±ÐµÐ» Ð¸Ð»Ð¸ Ð´ÐµÑ„Ð¸Ñ):: ";
+        member.biography[i] = inputString();
     }
 
     return is;
