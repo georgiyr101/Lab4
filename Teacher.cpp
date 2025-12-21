@@ -2,6 +2,7 @@
 #include "../Lab4/Input.h"
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 
 Teacher& Teacher::operator=(const Teacher& other) {
     if (this != &other) {
@@ -24,10 +25,7 @@ int Teacher::getPublicationsCount() const {return publicationsCount;}
 
 string Teacher::getScientificPublication(int index) const 
 {
-    if (index >= 0 && index < publicationsCount) 
-    {
-        return scientificPublications[index];
-    }
+    if (index >= 0 && index < publicationsCount) { return scientificPublications[index]; }
     return string("");
 }
 
@@ -66,13 +64,9 @@ ostream& operator<<(ostream& os, const Teacher& teacher) {
 
 istream& operator>>(istream& is, Teacher& teacher) {
     is >> static_cast<Human&>(teacher);
-    cout << "Введите должность (только латиница, пробел или дефис): ";
-    teacher.setPosition(inputString());
-    cout << "Введите специальность (только латиница, пробел или дефис): ";
-    teacher.setSpecialty(inputString());
-
-    cout << "Введите количество научных трудов (не больше " << MAX_PUBLICATIONS << "): ";
-    teacher.publicationsCount = inputNumber<int>(is, 1, MAX_PUBLICATIONS);
+    teacher.setPosition(inputString(is, "Enter position (Latin letters, space or hyphen): "));
+    teacher.setSpecialty(inputString(is, "Enter specialty (Latin letters, space or hyphen): "));
+    teacher.publicationsCount = inputNumber<int>(is, 1, MAX_PUBLICATIONS, "Enter number of publications (max 10): ");
     if (teacher.publicationsCount > MAX_PUBLICATIONS) 
     {
         teacher.publicationsCount = MAX_PUBLICATIONS;
@@ -80,19 +74,18 @@ istream& operator>>(istream& is, Teacher& teacher) {
 
     for (int i = 0; i < teacher.publicationsCount; i++) 
     {
-        cout << "Введите научную работу " << i + 1 << "(только латиница, пробел или дефис): ";
-        teacher.scientificPublications[i] = inputString();
+        teacher.scientificPublications[i] = inputString(is, "Enter publication title (Latin letters, space or hyphen): ");
     }
     return is;
 }
 
 void Teacher::printHeader() const {
-    cout << left << setw(15) << "Фамилия";
-    cout << left << setw(15) << "Имя";
-    cout << left << setw(12) << "Год рожд.";
-    cout << left << setw(20) << "Должность";
-    cout << left << setw(20) << "Специальность";
-    cout << left << setw(30) << "Научные работы"; 
+    cout << left << setw(15) << "Last Name";
+    cout << left << setw(15) << "First Name";
+    cout << left << setw(12) << "Birth Year";
+    cout << left << setw(20) << "Position";
+    cout << left << setw(20) << "Specialty";
+    cout << left << setw(30) << "Publications"; 
     cout << endl;
 }
 
@@ -114,18 +107,18 @@ void Teacher::printInfo() const {
 }
 
 char Teacher::editMenu() const {
-    cout << " 1. Изменить фамилию   " << endl;
-    cout << " 2. Изменить имя       " << endl;
-    cout << " 3. Изменить год рожд. " << endl;
-    cout << " 4. Изменить должность " << endl;
-    cout << " 5. Изменить спец-сть  " << endl;
-    cout << " 6. Добавить публикацию" << endl;
-    cout << " 7. Показать публикации" << endl;
-    cout << " 8. Изменить все       " << endl;
-    cout << " 0. Назад              " << endl;
+    cout << " 1. Edit last name   " << endl;
+    cout << " 2. Edit first name       " << endl;
+    cout << " 3. Edit birth year " << endl;
+    cout << " 4. Edit position " << endl;
+    cout << " 5. Edit specialty " << endl;
+    cout << " 6. Add publication " << endl;
+    cout << " 7. Show publications " << endl;
+    cout << " 8. Change all " << endl;
+    cout << " 0. Exit              " << endl;
 
     char option;
-    cout << "Выбор: ";
+    cout << "Select option: ";
     cin >> option;
     return option;
 }
@@ -133,8 +126,8 @@ char Teacher::editMenu() const {
 void Teacher::editFields() {
     char choice;
     do {
-        cout << "\nРЕДАКТИРОВАНИЕ TEACHER" << endl;
-        cout << "Текущие данные:" << endl;
+        cout << "\nEDITING TEACHER" << endl;
+        cout << "Current data:" << endl;
         this->printHeader();
         this->printInfo();
         cout << endl;
@@ -144,63 +137,57 @@ void Teacher::editFields() {
         switch (choice) {
         case '1': {
             string newLastName;
-            cout << "Введите новую фамилию: ";
             cin.ignore(1000, '\n');
-            cin >> newLastName;
+            newLastName = inputName(cin, "Enter last name (Latin letters, space or hyphen): ");
             this->setLastName(newLastName);
-            cout << "Фамилия обновлена!" << endl;
+            cout << "Last name changed!" << endl;
             break;
         }
         case '2': {
             string newFirstName;
-            cout << "Введите новое имя: ";
             cin.ignore(1000, '\n');
-            cin >> newFirstName;
+            newFirstName = inputName(cin, "Enter first name (Latin letters, space or hyphen): ");
             this->setFirstName(newFirstName);
-            cout << "Имя обновлено!" << endl;
+            cout << "First name changed!" << endl;
             break;
         }
         case '3': {
             int newBirthYear;
-            cout << "Введите новый год рождения: ";
-            cin >> newBirthYear;
+            newBirthYear = inputNumber<int>(cin, 1925, 2007, "Enter birth year: ");
             this->setBirthYear(newBirthYear);
-            cout << "Год рождения обновлен!" << endl;
+            cout << "Birth year changed!" << endl;
             break;
         }
         case '4': {
             string newPosition;
-            cout << "Введите новую должность: ";
             cin.ignore(1000, '\n');
-            cin >> newPosition;
+            newPosition = inputString(cin, "Enter position (Latin letters, space or hyphen): ");
             this->setPosition(newPosition);
-            cout << "Должность обновлена!" << endl;
+            cout << "Position changed!" << endl;
             break;
         }
         case '5': {
             string newSpecialty;
-            cout << "Введите новую специальность: ";
             cin.ignore(1000, '\n');
-            cin >> newSpecialty;
+            newSpecialty = inputString(cin, "Enter specialty (Latin letters, space or hyphen): ");
             this->setSpecialty(newSpecialty);
-            cout << "Специальность обновлена!" << endl;
+            cout << "Specialty changed!" << endl;
             break;
         }
         case '6': {
             string publication;
-            cout << "Введите публикацию: ";
             cin.ignore(1000, '\n');
-            cin >> publication;
+            publication = inputString(cin, "Enter publication title (Latin letters, space or hyphen): ");
             if (this->addScientificPublication(publication)) {
-                cout << "Публикация добавлена!" << endl;
+                cout << "Publication added!" << endl;
             }
             else {
-                cout << "Не удалось добавить публикацию!" << endl;
+                cout << "Failed to add publication!" << endl;
             }
             break;
         }
         case '7': {
-            cout << "Научные публикации (" << publicationsCount << "):" << endl;
+            cout << "Publications (" << publicationsCount << "):" << endl;
             for (int i = 0; i < publicationsCount; i++) {
                 cout << i + 1 << ". " << scientificPublications[i] << endl;
             }
@@ -210,17 +197,130 @@ void Teacher::editFields() {
             Teacher newTeacher;
             cin >> newTeacher;
             *this = newTeacher;
-            cout << "Все данные обновлены!" << endl;
+            cout << "All fields changed!" << endl;
             break;
         }
         case '0':
-            cout << "Выход из редактирования..." << endl;
+            cout << "Exiting edit mode..." << endl;
             break;
         default:
-            cout << "Неверный выбор!" << endl;
+            cout << "Invalid choice!" << endl;
         }
 
     } while (choice != '0');
+}
+
+void Teacher::saveTextRecord(ostream& os) const {
+    Human::saveTextRecord(os);
+    os << ";" << position << ";" << specialty << ";" << publicationsCount;
+    for (int i = 0; i < publicationsCount; i++) {
+        os << ";" << scientificPublications[i];
+    }
+}
+
+void Teacher::saveBinaryRecord(ostream& os) const {
+    Human::saveBinaryRecord(os);
+    int len;
+
+    len = static_cast<int>(position.size());
+    os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+    if (len > 0) os.write(position.data(), len);
+
+    len = static_cast<int>(specialty.size());
+    os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+    if (len > 0) os.write(specialty.data(), len);
+
+    os.write(reinterpret_cast<const char*>(&publicationsCount), sizeof(publicationsCount));
+    for (int i = 0; i < publicationsCount; i++) {
+        len = static_cast<int>(scientificPublications[i].size());
+        os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+        if (len > 0) os.write(scientificPublications[i].data(), len);
+    }
+}
+
+void Teacher::loadFromText(istream& is) {
+    string line;
+    getline(is, line);
+    
+    // Parse Human data: firstName;lastName;birthYear
+    size_t pos = 0;
+    size_t nextPos = line.find(';', pos);
+    if (nextPos != string::npos) {
+        firstName = line.substr(pos, nextPos - pos);
+        pos = nextPos + 1;
+        
+        nextPos = line.find(';', pos);
+        if (nextPos != string::npos) {
+            lastName = line.substr(pos, nextPos - pos);
+            pos = nextPos + 1;
+            
+            nextPos = line.find(';', pos);
+            if (nextPos != string::npos) {
+                string birthYearStr = line.substr(pos, nextPos - pos);
+                istringstream bys(birthYearStr);
+                bys >> birthYear;
+                pos = nextPos + 1;
+                
+                // Parse Teacher data: position;specialty;publicationsCount;publications...
+                nextPos = line.find(';', pos);
+                if (nextPos != string::npos) {
+                    position = line.substr(pos, nextPos - pos);
+                    pos = nextPos + 1;
+                    
+                    nextPos = line.find(';', pos);
+                    if (nextPos != string::npos) {
+                        specialty = line.substr(pos, nextPos - pos);
+                        pos = nextPos + 1;
+                        
+                        nextPos = line.find(';', pos);
+                        if (nextPos != string::npos) {
+                            string countStr = line.substr(pos, nextPos - pos);
+                            istringstream css(countStr);
+                            css >> publicationsCount;
+                            pos = nextPos + 1;
+                            
+                            for (int i = 0; i < publicationsCount && i < MAX_PUBLICATIONS; i++) {
+                                nextPos = line.find(';', pos);
+                                if (nextPos != string::npos) {
+                                    scientificPublications[i] = line.substr(pos, nextPos - pos);
+                                    pos = nextPos + 1;
+                                } else {
+                                    scientificPublications[i] = line.substr(pos);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Teacher::loadFromBinary(istream& is) {
+    Human::loadFromBinary(is);
+    int len;
+
+    is.read(reinterpret_cast<char*>(&len), sizeof(len));
+    if (len > 0) {
+        position.resize(len);
+        is.read(&position[0], len);
+    }
+
+    is.read(reinterpret_cast<char*>(&len), sizeof(len));
+    if (len > 0) {
+        specialty.resize(len);
+        is.read(&specialty[0], len);
+    }
+
+    is.read(reinterpret_cast<char*>(&publicationsCount), sizeof(publicationsCount));
+    for (int i = 0; i < publicationsCount && i < MAX_PUBLICATIONS; i++) {
+        is.read(reinterpret_cast<char*>(&len), sizeof(len));
+        if (len > 0) {
+            scientificPublications[i].resize(len);
+            is.read(&scientificPublications[i][0], len);
+        }
+    }
 }
 
 

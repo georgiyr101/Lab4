@@ -1,6 +1,7 @@
 #include "CommissionMember.h"
 #include "../Lab4/Input.h"
 #include <iomanip>
+#include <sstream>
 
 CommissionMember& CommissionMember::operator=(const CommissionMember& other) {
     if (this != &other) {
@@ -48,11 +49,11 @@ bool CommissionMember::setBiography(int index, const string& biographyLine)
 }
 
 void CommissionMember::printHeader() const {
-    cout << left << setw(15) << "Фамилия";
-    cout << left << setw(15) << "Имя";
-    cout << left << setw(12) << "Год рожд.";
-    cout << left << setw(20) << "Название комиссии";
-    cout << left << setw(30) << "Биография";
+    cout << left << setw(15) << "Last Name";
+    cout << left << setw(15) << "First Name";
+    cout << left << setw(12) << "Birth Year";
+    cout << left << setw(20) << "Commission Name";
+    cout << left << setw(30) << "Biography";
     cout << endl;
 }
 
@@ -73,17 +74,17 @@ void CommissionMember::printInfo() const {
 }
 
 char CommissionMember::editMenu() const {
-    cout << " 1. Изменить фамилию   " << endl;
-    cout << " 2. Изменить имя       " << endl;
-    cout << " 3. Изменить год рожд. " << endl;
-    cout << " 4. Изменить комиссию  " << endl;
-    cout << " 5. Добавить биографию " << endl;
-    cout << " 6. Показать биографию " << endl;
-    cout << " 7. Изменить все       " << endl;
-    cout << " 0. Назад              " << endl;
+    cout << " 1. �������� �������   " << endl;
+    cout << " 2. �������� ���       " << endl;
+    cout << " 3. �������� ��� ����. " << endl;
+    cout << " 4. �������� ��������  " << endl;
+    cout << " 5. �������� ��������� " << endl;
+    cout << " 6. �������� ��������� " << endl;
+    cout << " 7. �������� ���       " << endl;
+    cout << " 0. �����              " << endl;
 
     char option;
-    cout << "Выбор: ";
+    cout << "Select option: ";
     cin >> option;
     return option;
 }
@@ -91,8 +92,8 @@ char CommissionMember::editMenu() const {
 void CommissionMember::editFields() {
     char choice;
     do {
-        cout << "\nРЕДАКТИРОВАНИЕ COMMISSION MEMBER" << endl;
-        cout << "Текущие данные:" << endl;
+        cout << "\n�������������� COMMISSION MEMBER" << endl;
+        cout << "������� ������:" << endl;
         this->printHeader();
         this->printInfo();
         cout << endl;
@@ -102,54 +103,49 @@ void CommissionMember::editFields() {
         switch (choice) {
         case '1': {
             string newLastName;
-            cout << "Введите новую фамилию: ";
             cin.ignore(1000, '\n');
-            cin >> newLastName;
+            newLastName = inputName(cin, "Enter last name: ");
             this->setLastName(newLastName);
-            cout << "Фамилия обновлена!" << endl;
+            cout << "Last name changed!" << endl;
             break;
         }
         case '2': {
             string newFirstName;
-            cout << "Введите новое имя: ";
             cin.ignore(1000, '\n');
-            cin >> newFirstName;
+            newFirstName = inputName(cin, "Enter first name: ");
             this->setFirstName(newFirstName);
-            cout << "Имя обновлено!" << endl;
+            cout << "First name changed!" << endl;
             break;
         }
         case '3': {
             int newBirthYear;
-            cout << "Введите новый год рождения: ";
-            cin >> newBirthYear;
+            newBirthYear = inputNumber<int>(cin, 1925, 2007, "Enter birth year: ");
             this->setBirthYear(newBirthYear);
-            cout << "Год рождения обновлен!" << endl;
+            cout << "Birth year changed!" << endl;
             break;
         }
         case '4': {
             string newCommission;
-            cout << "Введите новое название комиссии: ";
             cin.ignore(1000, '\n');
-            cin >> newCommission;
+            newCommission = inputString(cin, "Enter commission name (Latin letters, space or hyphen): ");
             this->setCommissionName(newCommission);
-            cout << "Название комиссии обновлено!" << endl;
+            cout << "Commission name changed!" << endl;
             break;
         }
         case '5': {
             string bio;
-            cout << "Введите пункт биографии: ";
             cin.ignore(1000, '\n');
-            cin >> bio;
+            bio = inputString(cin, "Enter biography line (Latin letters, space or hyphen): ");
             if (this->addBiography(bio)) {
-                cout << "Биография добавлена!" << endl;
+                cout << "Biography line added!" << endl;
             }
             else {
-                cout << "Не удалось добавить биографию!" << endl;
+                cout << "Failed to add biography line!" << endl;
             }
             break;
         }
         case '6': {
-            cout << "Биография (" << biographyCount << " пунктов):" << endl;
+            cout << "Biography (" << biographyCount << " lines):" << endl;
             for (int i = 0; i < biographyCount; i++) {
                 cout << i + 1 << ". " << biography[i] << endl;
             }
@@ -159,14 +155,14 @@ void CommissionMember::editFields() {
             CommissionMember newMember;
             cin >> newMember;
             *this = newMember;
-            cout << "Все данные обновлены!" << endl;
+            cout << "All fields changed!" << endl;
             break;
         }
         case '0':
-            cout << "Выход из редактирования..." << endl;
+            cout << "Exiting edit mode..." << endl;
             break;
         default:
-            cout << "Неверный выбор!" << endl;
+            cout << "Invalid choice!" << endl;
         }
     } while (choice != '0');
 }
@@ -181,20 +177,110 @@ ostream& operator<<(ostream& os, const CommissionMember& member) {
 
 istream& operator>>(istream& is, CommissionMember& member) {
     is >> static_cast<Human&>(member);
-    cout << "Введите название комиссии (только латиница, пробел или дефис): ";
-    member.setCommissionName(inputString());
-
-    cout << "Введите кол-во пунктов биографии (не больше " << MAX_BIOGRAPHY << "): ";
-    member.biographyCount = inputNumber(is, 1, MAX_BIOGRAPHY);
-    if (member.biographyCount > MAX_BIOGRAPHY) {
-        member.biographyCount = MAX_BIOGRAPHY;
-    }
-
+    member.setCommissionName(inputString(is, "Enter commission name (Latin letters, space or hyphen): "));
+    member.biographyCount = inputNumber<int>(is, 1, MAX_BIOGRAPHY, "Enter number of biography lines (max 5): ");
+    if (member.biographyCount > MAX_BIOGRAPHY) { member.biographyCount = MAX_BIOGRAPHY;}
     for (int i = 0; i < member.biographyCount; i++) {
-        cout << "Введите пункт биографии " << i + 1 << "(только латиница, пробел или дефис):: ";
-        member.biography[i] = inputString();
+        member.biography[i] = inputString(is, "Enter biography line (Latin letters, space or hyphen): ");
     }
 
     return is;
+}
+
+void CommissionMember::saveTextRecord(ostream& os) const {
+    Human::saveTextRecord(os);
+    os << ";" << commissionName << ";" << biographyCount;
+    for (int i = 0; i < biographyCount; i++) {
+        os << ";" << biography[i];
+    }
+}
+
+void CommissionMember::saveBinaryRecord(ostream& os) const {
+    Human::saveBinaryRecord(os);
+    int len;
+
+    len = static_cast<int>(commissionName.size());
+    os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+    if (len > 0) os.write(commissionName.data(), len);
+
+    os.write(reinterpret_cast<const char*>(&biographyCount), sizeof(biographyCount));
+    for (int i = 0; i < biographyCount; i++) {
+        len = static_cast<int>(biography[i].size());
+        os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+        if (len > 0) os.write(biography[i].data(), len);
+    }
+}
+
+void CommissionMember::loadFromText(istream& is) {
+    string line;
+    getline(is, line);
+    
+    // Parse Human data: firstName;lastName;birthYear
+    size_t pos = 0;
+    size_t nextPos = line.find(';', pos);
+    if (nextPos != string::npos) {
+        firstName = line.substr(pos, nextPos - pos);
+        pos = nextPos + 1;
+        
+        nextPos = line.find(';', pos);
+        if (nextPos != string::npos) {
+            lastName = line.substr(pos, nextPos - pos);
+            pos = nextPos + 1;
+            
+            nextPos = line.find(';', pos);
+            if (nextPos != string::npos) {
+                string birthYearStr = line.substr(pos, nextPos - pos);
+                istringstream bys(birthYearStr);
+                bys >> birthYear;
+                pos = nextPos + 1;
+                
+                // Parse CommissionMember data: commissionName;biographyCount;biography...
+                nextPos = line.find(';', pos);
+                if (nextPos != string::npos) {
+                    commissionName = line.substr(pos, nextPos - pos);
+                    pos = nextPos + 1;
+                    
+                    nextPos = line.find(';', pos);
+                    if (nextPos != string::npos) {
+                        string countStr = line.substr(pos, nextPos - pos);
+                        istringstream css(countStr);
+                        css >> biographyCount;
+                        pos = nextPos + 1;
+                        
+                        for (int i = 0; i < biographyCount && i < MAX_BIOGRAPHY; i++) {
+                            nextPos = line.find(';', pos);
+                            if (nextPos != string::npos) {
+                                biography[i] = line.substr(pos, nextPos - pos);
+                                pos = nextPos + 1;
+                            } else {
+                                biography[i] = line.substr(pos);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void CommissionMember::loadFromBinary(istream& is) {
+    Human::loadFromBinary(is);
+    int len;
+
+    is.read(reinterpret_cast<char*>(&len), sizeof(len));
+    if (len > 0) {
+        commissionName.resize(len);
+        is.read(&commissionName[0], len);
+    }
+
+    is.read(reinterpret_cast<char*>(&biographyCount), sizeof(biographyCount));
+    for (int i = 0; i < biographyCount && i < MAX_BIOGRAPHY; i++) {
+        is.read(reinterpret_cast<char*>(&len), sizeof(len));
+        if (len > 0) {
+            biography[i].resize(len);
+            is.read(&biography[i][0], len);
+        }
+    }
 }
 

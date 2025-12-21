@@ -31,6 +31,12 @@ public:
 	virtual void printHeader() const override;
 	virtual void printInfo() const override;
 
+	virtual void saveTextRecord(ostream& os) const override;
+	virtual void saveBinaryRecord(ostream& os) const override;
+
+	virtual void loadFromText(istream& is) override;
+	virtual void loadFromBinary(istream& is) override;
+
 	friend ostream& operator << (ostream& os, const CommissionMember& member);
 	friend istream& operator >> (istream& is, CommissionMember& member);
 

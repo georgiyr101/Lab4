@@ -21,8 +21,6 @@ public:
 	}
 	virtual ~Human(){}
 	Human& operator=(const Human& other);
-	bool operator==(const Human& other) const;
-	bool operator<(const Human& other) const;
 
 	string getFirstName() const;
 	string getLastName() const;
@@ -37,6 +35,12 @@ public:
 
 	virtual char editMenu() const = 0;
 	virtual void editFields() = 0;
+
+	virtual void saveTextRecord(ostream& os) const;
+	virtual void saveBinaryRecord(ostream& os) const;
+
+	virtual void loadFromText(istream& is);
+	virtual void loadFromBinary(istream& is);
 
 	friend ostream& operator << (ostream& os, const Human& h);
 	friend istream& operator >> (istream& is, Human& h);
