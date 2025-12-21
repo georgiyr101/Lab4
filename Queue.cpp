@@ -88,19 +88,18 @@ Queue<T> Queue<T>::find(Predicate pred) const
     return result;
 }
 
-
 template <typename T>
 template <typename Compare>
-void Queue<T>::sort(Compare comp) 
+void Queue<T>::sort(Compare comp)
 {
     if (this->isEmpty() || this->front->next == nullptr) return;
     bool swapped;
     do {
         swapped = false;
         QueueNode<T>* current = this->front;
-        while (current->next != nullptr) 
+        while (current->next != nullptr)
         {
-            if (comp(*(current->next->data), *(current->data))) 
+            if (comp(current->next->data, current->data))
             {
                 swap(current->data, current->next->data);
                 swapped = true;
